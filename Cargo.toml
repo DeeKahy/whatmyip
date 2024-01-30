@@ -1,0 +1,24 @@
+
+[package]
+name = "what_my_ip"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+axum = "0.7.4"
+hyper = "1.1.0"
+serde = "1.0.196"
+tokio = { version = "1.35.1", features = ["full", "macros", "rt-multi-thread"] }
+tower = "0.4.13"
+tower-http = "0.5.1"
+axum-client-ip = "0.5.0"  # Add this line for the axum_client_ip crate
+
+# Enable a small amount of optimization in debug mode
+[profile.dev]
+opt-level = 1
+
+# Enable high optimizations for dependencies (incl. Bevy), but not for our code:
+[profile.dev.package."*"]
+opt-level = 3
