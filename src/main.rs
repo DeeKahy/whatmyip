@@ -1,5 +1,8 @@
 use axum::{extract::ConnectInfo, response::Html, routing::get, Router};
 use std::net::SocketAddr;
+use axum::http::Request;
+use axum::body::Body;
+use tower::ServiceExt;
 
 #[tokio::main]
 async fn main() {
@@ -17,7 +20,9 @@ async fn main() {
     .unwrap();
 }
 
-async fn handler(ConnectInfo(addr): ConnectInfo<SocketAddr>) -> Html<String> {
+async fn handler(req: Request<Body>) -> Html<String> {
+    let header = req.headers().get("X_FORWARDED_FOR");
+    println!("{:?}", header);
     Html(format!(
         r#"
         <!DOCTYPE html>
@@ -48,10 +53,9 @@ async fn handler(ConnectInfo(addr): ConnectInfo<SocketAddr>) -> Html<String> {
         </head>
         <body>
             <h1>Welcome to the IP Address Checker!</h1>
-            <div class="ip-address">Your IP Address is: <strong>{}</strong></div>
+            <div class="ip-address">Your IP Address is: <strong>{:?}</strong></div>
         </body>
         </html>
-        "#,
-        addr
+        "#,header
     ))
 }
