@@ -8,7 +8,7 @@ use tower::ServiceExt;
 async fn main() {
     let app = Router::new().route("/", get(handler));
 
-    let addr = "0.0.0.0:3000".parse::<SocketAddr>().unwrap();
+    let addr = "0.0.0.0:4305".parse::<SocketAddr>().unwrap();
     let listener = tokio::net::TcpListener::bind(addr).await.unwrap();
     println!("Listening on {}", addr);
 
